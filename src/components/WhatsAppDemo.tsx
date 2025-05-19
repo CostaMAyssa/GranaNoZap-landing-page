@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { MessageSquare, Send } from "lucide-react";
+import { MessageSquare, Send, LayoutDashboard } from "lucide-react";
 
 const WhatsAppDemo: React.FC = () => {
   return (
@@ -28,10 +27,19 @@ const WhatsAppDemo: React.FC = () => {
               
               <div className="flex items-center gap-3">
                 <span className="bg-saldo-border/50 p-2 rounded-full">
-                  <Send className="h-5 w-5 text-saldo-income" />
+                  <Send className="h-5 w-5 text-saldo-primary" />
                 </span>
                 <p className="text-saldo-text-secondary">
                   <strong className="text-saldo-text-primary">Rápido:</strong> Receba confirmação instantânea
+                </p>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <span className="bg-saldo-border/50 p-2 rounded-full">
+                  <LayoutDashboard className="h-5 w-5 text-saldo-primary" />
+                </span>
+                <p className="text-saldo-text-secondary">
+                  <strong className="text-saldo-text-primary">Eficiente:</strong> Veja tudo organizado no dashboard
                 </p>
               </div>
             </div>

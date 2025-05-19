@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { CircleCheck, CircleDollarSign, Filter, ChartBar } from "lucide-react";
 
@@ -10,17 +9,17 @@ const TipsSection: React.FC = () => {
       description: "Combine filtros de período, categoria e tipo para extrair insights mais profundos sobre seus gastos."
     },
     {
-      icon: <CircleDollarSign className="h-6 w-6 text-saldo-income" />,
+      icon: <CircleDollarSign className="h-6 w-6 text-saldo-primary" />,
       title: "Planeje seu orçamento mensal",
       description: "Defina limites de gastos por categoria e acompanhe o progresso para manter suas finanças sob controle."
     },
     {
-      icon: <ChartBar className="h-6 w-6 text-saldo-balance" />,
+      icon: <ChartBar className="h-6 w-6 text-saldo-primary" />,
       title: "Analise as categorias de gastos",
       description: "Identifique onde seu dinheiro está indo e encontre oportunidades para economizar."
     },
     {
-      icon: <CircleCheck className="h-6 w-6 text-saldo-premium" />,
+      icon: <CircleCheck className="h-6 w-6 text-saldo-primary" />,
       title: "Monitore sua saúde financeira",
       description: "Acompanhe regularmente seu saldo e a proporção entre receitas e despesas."
     }
@@ -47,7 +46,7 @@ const TipsSection: React.FC = () => {
                 {tip.icon}
               </div>
               <div>
-                <h3 className="text-lg font-bold mb-2">{tip.title}</h3>
+                <h3 className="text-lg font-bold mb-2 text-saldo-primary">{tip.title}</h3>
                 <p className="text-saldo-text-secondary">{tip.description}</p>
               </div>
             </div>

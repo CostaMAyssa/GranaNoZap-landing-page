@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { MessageSquare, ChartBar, Filter, FileText } from "lucide-react";
 
@@ -10,17 +9,17 @@ const Features: React.FC = () => {
       description: "Envie suas transações por mensagem e deixe o sistema fazer o resto."
     },
     {
-      icon: <ChartBar className="h-10 w-10 text-saldo-income" />,
+      icon: <ChartBar className="h-10 w-10 text-saldo-primary" />,
       title: "Dashboard Visual",
       description: "Acompanhe saldos, categorias e tendências com visualizações claras e intuitivas."
     },
     {
-      icon: <Filter className="h-10 w-10 text-saldo-balance" />,
+      icon: <Filter className="h-10 w-10 text-saldo-primary" />,
       title: "Filtros Inteligentes",
       description: "Período, tipo e status em um clique para análises mais precisas."
     },
     {
-      icon: <FileText className="h-10 w-10 text-saldo-premium" />,
+      icon: <FileText className="h-10 w-10 text-saldo-primary" />,
       title: "Exportação Fácil",
       description: "Gere relatórios em PDF ou Excel com um toque para usar onde quiser."
     }
@@ -43,7 +42,7 @@ const Features: React.FC = () => {
               <div className="mb-4 p-4 rounded-full bg-saldo-border/50">
                 {feature.icon}
               </div>
-              <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
+              <h3 className="text-xl font-bold mb-2 text-saldo-primary">{feature.title}</h3>
               <p className="text-saldo-text-secondary">{feature.description}</p>
             </div>
           ))}

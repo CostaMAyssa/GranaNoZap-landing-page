@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
@@ -19,11 +18,11 @@ const Index: React.FC = () => {
         <Hero />
         <WhatsAppDemo />
         <Features />
-        <PricingSection />
         <OverviewCards />
         <ChartSection />
         <TransactionsTable />
         <TipsSection />
+        <PricingSection />
       </main>
       <Footer />
     </div>
