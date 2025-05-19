@@ -2,6 +2,7 @@
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
+import WhatsAppDemo from '@/components/WhatsAppDemo';
 import Features from '@/components/Features';
 import OverviewCards from '@/components/OverviewCards';
 import ChartSection from '@/components/ChartSection';
@@ -15,6 +16,7 @@ const Index: React.FC = () => {
       <Navbar />
       <main>
         <Hero />
+        <WhatsAppDemo />
         <Features />
         <OverviewCards />
         <ChartSection />
