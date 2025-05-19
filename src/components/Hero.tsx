@@ -13,7 +13,7 @@ const Hero: React.FC = () => {
           </h1>
           
           <p className="text-xl md:text-2xl mb-8 text-saldo-text-secondary animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            Com o SaldoForte, você controla tudo pelo WhatsApp e acompanha os resultados direto no painel.
+            Com o GrananoZap, você controla tudo pelo WhatsApp e acompanha os resultados direto no painel.
           </p>
           
           <div className="grid md:grid-cols-3 gap-6 text-left mb-10 animate-fade-in" style={{ animationDelay: '0.4s' }}>
