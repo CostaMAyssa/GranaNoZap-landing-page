@@ -15,6 +15,9 @@ const Navbar: React.FC = () => {
           <a href="#funcionalidades" className="text-saldo-text-secondary hover:text-saldo-text-primary transition-colors">
             Funcionalidades
           </a>
+          <a href="#planos" className="text-saldo-text-secondary hover:text-saldo-text-primary transition-colors">
+            Planos
+          </a>
           <a href="#visao-geral" className="text-saldo-text-secondary hover:text-saldo-text-primary transition-colors">
             Visão Geral
           </a>

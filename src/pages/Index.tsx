@@ -4,6 +4,7 @@ import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import WhatsAppDemo from '@/components/WhatsAppDemo';
 import Features from '@/components/Features';
+import PricingSection from '@/components/PricingSection';
 import OverviewCards from '@/components/OverviewCards';
 import ChartSection from '@/components/ChartSection';
 import TransactionsTable from '@/components/TransactionsTable';
@@ -18,6 +19,7 @@ const Index: React.FC = () => {
         <Hero />
         <WhatsAppDemo />
         <Features />
+        <PricingSection />
         <OverviewCards />
         <ChartSection />
         <TransactionsTable />
