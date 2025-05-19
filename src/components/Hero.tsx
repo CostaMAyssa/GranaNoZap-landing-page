@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, DollarSign, BarChart3, FileText } from "lucide-react";
 
 const Hero: React.FC = () => {
   return (
@@ -18,15 +18,21 @@ const Hero: React.FC = () => {
           
           <div className="grid md:grid-cols-3 gap-6 text-left mb-10 animate-fade-in" style={{ animationDelay: '0.4s' }}>
             <div className="flex items-start gap-3">
-              <span className="text-saldo-income text-2xl">💰</span>
+              <span className="text-saldo-income">
+                <DollarSign size={24} className="stroke-saldo-income" />
+              </span>
               <p className="text-saldo-text-secondary">Registre suas movimentações com um simples envio de mensagem.</p>
             </div>
             <div className="flex items-start gap-3">
-              <span className="text-saldo-balance text-2xl">📊</span>
+              <span className="text-saldo-balance">
+                <BarChart3 size={24} className="stroke-saldo-balance" />
+              </span>
               <p className="text-saldo-text-secondary">Veja tudo organizado automaticamente no dashboard.</p>
             </div>
             <div className="flex items-start gap-3">
-              <span className="text-saldo-premium text-2xl">📥</span>
+              <span className="text-saldo-premium">
+                <FileText size={24} className="stroke-saldo-premium" />
+              </span>
               <p className="text-saldo-text-secondary">Exporte relatórios, acompanhe saldos e descubra onde está seu dinheiro — sem planilhas, sem complicações.</p>
             </div>
           </div>
