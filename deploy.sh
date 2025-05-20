@@ -1,4 +1,3 @@
-
 #!/usr/bin/env sh
 
 # abort on errors
@@ -12,7 +11,7 @@ npm run build
 cd dist
 
 # if you are deploying to a custom domain
-# echo 'yourdomain.com' > CNAME
+echo 'grananozap.com.br' > CNAME
 
 # initialize git if not already initialized
 git init
@@ -23,7 +22,7 @@ git add -A
 git commit -m "deploy: $(date)"
 
 # if you are deploying to https://<USERNAME>.github.io/<REPO>
-git push -f git@github.com:<SEU_USUARIO>/GranaNoZap.git gh-pages
+git push -f https://github.com/CostaMAyssa/GranaNoZap-landing-page.git gh-pages
 
 cd -
 echo "Deployment complete"

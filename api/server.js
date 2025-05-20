@@ -1,4 +1,3 @@
-
 import express from 'express';
 import cors from 'cors';
 import Stripe from 'stripe';
@@ -17,7 +16,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 // Middleware
 app.use(express.json());
 app.use(cors({
-  origin: ['http://localhost:8080', 'http://localhost:8081', 'http://localhost:5173'],
+  origin: ['http://localhost:8080', 'http://localhost:8081', 'http://localhost:5173', 'https://grananozap.com.br', 'https://costamayssa.github.io'],
   credentials: true,
 }));
 
