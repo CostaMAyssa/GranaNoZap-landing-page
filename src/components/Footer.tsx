@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 const Footer: React.FC = () => {
@@ -8,7 +7,7 @@ const Footer: React.FC = () => {
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="text-center md:text-left">
             <span className="text-xl font-poppins font-bold text-saldo-text-primary">
-              Granano<span className="text-saldo-primary">Zap</span>
+              GranaNo<span className="text-saldo-primary">Zap</span>
             </span>
             <p className="text-saldo-text-secondary mt-2">Suas finanças sob controle em um só lugar.</p>
           </div>
@@ -35,7 +34,7 @@ const Footer: React.FC = () => {
         </div>
         
         <div className="border-t border-saldo-border mt-8 pt-8 text-center">
-          <p className="text-saldo-text-secondary text-sm">© 2025 GrananoZap. Todos os direitos reservados.</p>
+          <p className="text-saldo-text-secondary text-sm">© 2025 GranaNoZap. Todos os direitos reservados.</p>
         </div>
       </div>
     </footer>

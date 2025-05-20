@@ -69,7 +69,7 @@ const WhatsAppDemo: React.FC = () => {
                   <div className="bg-[#222e35] px-4 py-2 flex items-center">
                     <div className="w-10 h-10 bg-saldo-border rounded-full"></div>
                     <div className="ml-3">
-                      <p className="text-white text-sm font-medium">GrananoZap Bot</p>
+                      <p className="text-white text-sm font-medium">GranaNoZap Bot</p>
                       <p className="text-green-500 text-xs">online</p>
                     </div>
                   </div>

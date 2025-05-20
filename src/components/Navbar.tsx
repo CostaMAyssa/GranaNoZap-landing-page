@@ -14,7 +14,7 @@ const Navbar: React.FC = () => {
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <div className="flex items-center">
           <span className="text-2xl font-poppins font-bold text-saldo-text-primary">
-            Granano<span className="text-saldo-primary">Zap</span>
+            GranaNo<span className="text-saldo-primary">Zap</span>
           </span>
         </div>
         <div className="hidden md:flex items-center gap-8">
