@@ -37,19 +37,41 @@ npm i
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Deployment to GitHub Pages
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+To deploy your project to GitHub Pages, follow these steps:
 
-**Use GitHub Codespaces**
+1. Update your repository details in the `deploy.sh` script:
+   - Replace `<SEU_USUARIO>` with your actual GitHub username
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+2. Make the deployment script executable:
+   ```sh
+   chmod +x deploy.sh
+   ```
+
+3. Run the deployment script:
+   ```sh
+   ./deploy.sh
+   ```
+
+This will build your project and push it to the `gh-pages` branch of your repository.
+
+## Payment System in Production
+
+For the payment system to work in production:
+
+1. Deploy your Node.js server (api/server.js) to a hosting provider like:
+   - Vercel
+   - Render
+   - Heroku
+   - Digital Ocean
+
+2. Update your environment variables in production:
+   - Set `VITE_API_URL` to point to your deployed API server
+   - Configure CORS in your server to allow requests from your deployed frontend URL
+   - Ensure your Stripe webhook is properly configured for production
+
+3. Test the payment flow thoroughly after deployment
 
 ## What technologies are used for this project?
 
@@ -60,10 +82,12 @@ This project is built with:
 - React
 - shadcn-ui
 - Tailwind CSS
+- Stripe for payments
+- Supabase for backend services
 
 ## How can I deploy this project?
 
-Simply open [Lovable](https://lovable.dev/projects/eb4b8bc5-7d08-448d-a923-765cdcc8e637) and click on Share -> Publish.
+Simply open [Lovable](https://lovable.dev/projects/eb4b8bc5-7d08-448d-a923-765cdcc8e637) and click on Share -> Publish, or follow the GitHub Pages deployment instructions above.
 
 ## Can I connect a custom domain to my Lovable project?
 

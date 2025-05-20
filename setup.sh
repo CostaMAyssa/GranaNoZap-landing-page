@@ -1,1 +1,22 @@
-#!/bin/bash\n\n# Script para preparar e executar o ambiente de desenvolvimento\n\necho "Instalando dependências..."\nnpm install\n\necho "Configurando variáveis de ambiente..."\nIF [ ! -f .env ]; then\n  echo "# Stripe API Keys\nVITE_STRIPE_PUBLIC_KEY=pk_test_sua_chave_publica_aqui\nSTRIPE_SECRET_KEY=sk_test_sua_chave_secreta_aqui\n\n# URLs\nVITE_APP_URL=http://localhost:5173\nSTRIPE_WEBHOOK_SECRET=whsec_seu_webhook_secret_aqui" > .env\nfi\n\necho "Iniciando ambiente de desenvolvimento..."\nnpm run start:dev
+
+#!/bin/bash
+
+# Script para preparar e executar o ambiente de desenvolvimento
+
+echo "Instalando dependências..."
+npm install
+
+echo "Configurando variáveis de ambiente..."
+if [ ! -f .env ]; then
+  echo "# Stripe API Keys
+VITE_STRIPE_PUBLIC_KEY=pk_test_sua_chave_publica_aqui
+STRIPE_SECRET_KEY=sk_test_sua_chave_secreta_aqui
+
+# URLs
+VITE_APP_URL=http://localhost:5173
+VITE_API_URL=http://localhost:3001
+STRIPE_WEBHOOK_SECRET=whsec_seu_webhook_secret_aqui" > .env
+fi
+
+echo "Iniciando ambiente de desenvolvimento..."
+npm run dev
