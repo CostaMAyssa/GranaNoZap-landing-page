@@ -5,13 +5,19 @@ import { toast } from "@/components/ui/use-toast";
 // Get the Stripe public key from environment variables or use the fallback
 const stripePublicKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY || 'pk_test_51RQpMqQthMMZdZj24KgMjUjrg1aL5SrHx0poDkJ5rur62Vzz0igogbFawWgZKGdYprnQtg5JFVAoaCC94SUB01UB00tKOVqFz1';
 
+// API URL - Ajustado para usar uma URL que funcione tanto em desenvolvimento quanto em produção
+const API_URL = import.meta.env.VITE_API_URL || window.location.hostname === 'localhost' 
+  ? 'http://localhost:3001' 
+  : 'https://api.grananozap.com';
+
 export const stripePromise = loadStripe(stripePublicKey);
 
 export const createCheckoutSession = async (priceId: string) => {
   try {
     console.log(`Creating checkout session for price ID: ${priceId}`);
+    console.log(`Using API URL: ${API_URL}`);
     
-    const response = await fetch('http://localhost:3001/api/create-checkout-session', {
+    const response = await fetch(`${API_URL}/api/create-checkout-session`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

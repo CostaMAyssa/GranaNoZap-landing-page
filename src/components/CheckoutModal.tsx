@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
-import { X, CreditCard, FileText, QrCode, Loader2, AlertCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { X, CreditCard, FileText, QrCode, Loader2, AlertCircle, WifiOff } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { createCheckoutSession } from "@/lib/stripe";
@@ -26,7 +26,42 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, planName
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('card');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isServerOnline, setIsServerOnline] = useState<boolean | null>(null);
   const { toast } = useToast();
+  
+  useEffect(() => {
+    // Verificar se o servidor está online quando o modal é aberto
+    if (isOpen) {
+      checkServerStatus();
+    }
+  }, [isOpen]);
+
+  const checkServerStatus = async () => {
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      console.log(`Verificando conexão com o servidor: ${apiUrl}/api/test`);
+      
+      const response = await fetch(`${apiUrl}/api/test`, { 
+        method: 'GET',
+        // Adicionando um timeout para não ficar esperando indefinidamente
+        signal: AbortSignal.timeout(5000)
+      });
+      
+      if (response.ok) {
+        console.log('Servidor online:', await response.json());
+        setIsServerOnline(true);
+        setError(null);
+      } else {
+        console.error('Servidor retornou erro:', response.status);
+        setIsServerOnline(false);
+        setError('O servidor de pagamento não está respondendo corretamente.');
+      }
+    } catch (err) {
+      console.error('Erro ao verificar status do servidor:', err);
+      setIsServerOnline(false);
+      setError('Não foi possível conectar ao servidor de pagamento. Verifique se o servidor está rodando na porta 3001.');
+    }
+  };
   
   if (!isOpen) return null;
 
@@ -100,6 +135,24 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, planName
             </div>
           </div>
           
+          {isServerOnline === false && (
+            <div className="mb-4 p-3 bg-amber-100 border border-amber-300 text-amber-800 rounded flex items-start">
+              <WifiOff className="h-5 w-5 mr-2 mt-0.5 flex-shrink-0" />
+              <div>
+                <p className="text-sm font-medium">Servidor de pagamento indisponível</p>
+                <p className="text-xs mt-1">Certifique-se de que o servidor está rodando na porta 3001. Execute <code>node start-server.js</code> em um terminal separado.</p>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="mt-2 text-xs h-7" 
+                  onClick={checkServerStatus}
+                >
+                  Verificar novamente
+                </Button>
+              </div>
+            </div>
+          )}
+          
           {error && (
             <div className="mb-4 p-3 bg-red-100 border border-red-300 text-red-800 rounded flex items-start">
               <AlertCircle className="h-5 w-5 mr-2 mt-0.5 flex-shrink-0" />
@@ -157,7 +210,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, planName
               <Button 
                 type="submit" 
                 className="w-full mt-8 btn-primary"
-                disabled={isLoading}
+                disabled={isLoading || isServerOnline === false}
               >
                 {isLoading ? (
                   <>
