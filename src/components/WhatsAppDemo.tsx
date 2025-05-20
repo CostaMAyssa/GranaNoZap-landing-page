@@ -1,5 +1,6 @@
 import React from 'react';
 import { MessageSquare, Send, LayoutDashboard } from "lucide-react";
+import logoWhatsApp from '../lib/image/logoWhatsApp.png';
 
 const WhatsAppDemo: React.FC = () => {
   const handleWhatsAppContact = () => {
@@ -67,7 +68,13 @@ const WhatsAppDemo: React.FC = () => {
                 <div className="bg-[#111b21] rounded-2xl overflow-hidden h-[500px]">
                   {/* Header */}
                   <div className="bg-[#222e35] px-4 py-2 flex items-center">
-                    <div className="w-10 h-10 bg-saldo-border rounded-full"></div>
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
+                      <img 
+                        src={logoWhatsApp} 
+                        alt="GranaNoZap Logo" 
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
                     <div className="ml-3">
                       <p className="text-white text-sm font-medium">GranaNoZap Bot</p>
                       <p className="text-green-500 text-xs">online</p>
@@ -87,7 +94,7 @@ const WhatsAppDemo: React.FC = () => {
                     {/* User message */}
                     <div className="flex justify-end mb-4">
                       <div className="bg-[#005c4b] rounded-lg p-2 max-w-[80%]">
-                        <p className="text-white text-sm">Gastei R$25 no café</p>
+                        <p className="text-white text-sm">Gastei 70,00 reais de lanche ontem</p>
                         <p className="text-xs text-gray-400 text-right">10:31</p>
                       </div>
                     </div>
@@ -95,7 +102,7 @@ const WhatsAppDemo: React.FC = () => {
                     {/* Bot message */}
                     <div className="flex mb-4">
                       <div className="bg-[#222e35] rounded-lg p-2 max-w-[80%]">
-                        <p className="text-white text-sm">Registrado! Despesa de R$ 25,00 na categoria "Alimentação"</p>
+                        <p className="text-white text-sm">Registrado! Despesa de R$ 70,00 na categoria "Alimentação"</p>
                         <p className="text-xs text-gray-400 text-right">10:31</p>
                       </div>
                     </div>
