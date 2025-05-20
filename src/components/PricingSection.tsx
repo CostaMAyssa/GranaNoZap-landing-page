@@ -1,6 +1,7 @@
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { Check, Zap, Users, FileText, FileSpreadsheet, LayoutDashboard, MessageSquare, Share2 } from "lucide-react";
+import { Check, Zap, Users, FileText, LayoutDashboard, MessageSquare, Share2 } from "lucide-react";
 import CheckoutModal from './CheckoutModal';
 
 interface PlanFeatureProps {

@@ -1,5 +1,6 @@
+
 import React, { useState } from 'react';
-import { X, CreditCard, Receipt, QrCode, Loader2, AlertCircle } from 'lucide-react';
+import { X, CreditCard, FileText, QrCode, Loader2, AlertCircle } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { createCheckoutSession } from "@/lib/stripe";
@@ -113,7 +114,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, planName
                 <span>Cartão</span>
               </TabsTrigger>
               <TabsTrigger value="boleto" className="flex items-center gap-2" disabled={isLoading}>
-                <Receipt size={20} className="text-saldo-primary" />
+                <FileText size={20} className="text-saldo-primary" />
                 <span>Boleto</span>
               </TabsTrigger>
               <TabsTrigger value="pix" className="flex items-center gap-2" disabled={isLoading}>
@@ -136,7 +137,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, planName
               {/* Formulário para Boleto */}
               <TabsContent value="boleto" className="space-y-4">
                 <div className="flex items-center justify-center mb-4">
-                  <Receipt size={48} className="text-saldo-primary" />
+                  <FileText size={48} className="text-saldo-primary" />
                 </div>
                 <p className="text-sm text-center text-saldo-text-secondary mb-4">
                   Você será redirecionado para o checkout seguro do Stripe para gerar seu boleto.
@@ -178,4 +179,4 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, planName
   );
 };
 
-export default CheckoutModal; 
+export default CheckoutModal;
