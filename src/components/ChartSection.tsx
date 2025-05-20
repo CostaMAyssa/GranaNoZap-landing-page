@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 
@@ -41,20 +40,46 @@ const ChartSection: React.FC = () => {
     return null;
   };
 
+  // Renderização responsiva do rótulo do gráfico de pizza
+  const renderCustomizedLabel = ({ name, percent, x, y, cx, midAngle }: any) => {
+    // Em telas pequenas, não mostrar texto, apenas valores no Legend
+    if (window.innerWidth < 768) {
+      return null;
+    }
+    
+    return (
+      <text 
+        x={x} 
+        y={y} 
+        fill="white" 
+        textAnchor={x > cx ? 'start' : 'end'} 
+        dominantBaseline="central"
+        fontSize="12"
+      >
+        {`${name} ${(percent * 100).toFixed(0)}%`}
+      </text>
+    );
+  };
+
+  // Calcular o tamanho do gráfico de pizza com base na largura da tela
+  const getPieChartSize = () => {
+    return window.innerWidth < 768 ? 90 : 120;
+  };
+
   return (
     <section className="section-padding bg-saldo-background">
-      <div className="container mx-auto">
-        <h2 className="text-3xl md:text-4xl text-center mb-16 font-poppins font-bold">
+      <div className="container mx-auto px-4">
+        <h2 className="text-2xl md:text-4xl text-center mb-8 md:mb-16 font-poppins font-bold">
           Gráficos <span className="text-saldo-primary">Interativos</span>
         </h2>
         
-        <div className="grid lg:grid-cols-2 gap-12">
-          <div className="card-highlight h-[400px] animate-fade-in" style={{ animationDelay: '0.1s' }}>
-            <h3 className="text-xl font-bold mb-6 text-center">Saldo Mensal</h3>
+        <div className="grid lg:grid-cols-2 gap-8 md:gap-12">
+          <div className="card-highlight h-[300px] md:h-[400px] animate-fade-in" style={{ animationDelay: '0.1s' }}>
+            <h3 className="text-lg md:text-xl font-bold mb-4 md:mb-6 text-center">Saldo Mensal</h3>
             <ResponsiveContainer width="100%" height="85%">
-              <BarChart data={monthlyData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-                <XAxis dataKey="name" stroke="#a9b0a6" />
-                <YAxis stroke="#a9b0a6" />
+              <BarChart data={monthlyData} margin={{ top: 20, right: 10, left: -20, bottom: 5 }}>
+                <XAxis dataKey="name" stroke="#a9b0a6" fontSize={12} />
+                <YAxis stroke="#a9b0a6" fontSize={12} width={40} />
                 <Tooltip content={<CustomTooltip />} />
                 <Bar dataKey="receita" name="Receita" fill="#34d399" radius={[4, 4, 0, 0]} />
                 <Bar dataKey="despesa" name="Despesa" fill="#f87171" radius={[4, 4, 0, 0]} />
@@ -63,8 +88,8 @@ const ChartSection: React.FC = () => {
             </ResponsiveContainer>
           </div>
           
-          <div className="card-highlight h-[400px] animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            <h3 className="text-xl font-bold mb-6 text-center">Distribuição por Categoria</h3>
+          <div className="card-highlight h-[300px] md:h-[400px] animate-fade-in" style={{ animationDelay: '0.2s' }}>
+            <h3 className="text-lg md:text-xl font-bold mb-4 md:mb-6 text-center">Distribuição por Categoria</h3>
             <ResponsiveContainer width="100%" height="85%">
               <PieChart>
                 <Pie
@@ -72,17 +97,22 @@ const ChartSection: React.FC = () => {
                   cx="50%"
                   cy="50%"
                   labelLine={false}
-                  outerRadius={120}
+                  outerRadius={window.innerWidth < 768 ? 90 : 120}
                   fill="#8884d8"
                   dataKey="value"
-                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                  label={renderCustomizedLabel}
                 >
                   {categoryData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
                 <Tooltip formatter={(value) => `R$ ${Number(value).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`} />
-                <Legend />
+                <Legend
+                  layout="horizontal"
+                  verticalAlign="bottom"
+                  align="center"
+                  wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }}
+                />
               </PieChart>
             </ResponsiveContainer>
           </div>
