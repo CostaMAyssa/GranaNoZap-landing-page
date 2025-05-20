@@ -1,3 +1,4 @@
+
 import Stripe from 'stripe';
 import dotenv from 'dotenv';
 
@@ -73,13 +74,12 @@ async function createProducts() {
     console.log(`Preço Prime Mensal criado com ID: ${primeMonthly.id}`);
     console.log(`Preço Prime Anual criado com ID: ${primeYearly.id}`);
 
-    // Mostrar IDs para atualizar no servidor
-    console.log('\nIDs de preço para atualizar em api/server.js:');
-    console.log(`'startend-monthly': '${startendMonthly.id}',`);
-    console.log(`'startend-yearly': '${startendYearly.id}',`);
-    console.log(`'prime-monthly': '${primeMonthly.id}',`);
-    console.log(`'prime-yearly': '${primeYearly.id}'`);
-    
+    // Mostrar IDs para atualizar no servidor - já atualizados com os valores fornecidos
+    console.log('\nIDs de preço atualizados no servidor:');
+    console.log(`'startend-monthly': 'price_1RQqc7QthMMZdZj2C8HBv5a2',`);  // Startend Mensal
+    console.log(`'startend-yearly': 'price_1RQqc6QthMMZdZj2Ul3I8lUc',`);   // Startend Anual 
+    console.log(`'prime-monthly': 'price_1RQqc8QthMMZdZj2SGjUs1wy',`);     // Prime Mensal
+    console.log(`'prime-yearly': 'price_1RQqc8QthMMZdZj2FbDyGIUu'`);       // Prime Anual
   } catch (error) {
     console.error('Erro ao criar produtos e preços:', error);
   }

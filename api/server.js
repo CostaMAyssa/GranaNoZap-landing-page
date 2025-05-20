@@ -1,3 +1,4 @@
+
 import express from 'express';
 import cors from 'cors';
 import Stripe from 'stripe';
@@ -36,12 +37,14 @@ app.post('/api/create-checkout-session', async (req, res) => {
       return res.status(400).json({ error: { message: 'Preço do produto não fornecido.' } });
     }
 
-    // Mapeamento de preços do Stripe (IDs reais do Stripe)
+    // Mapeamento de preços do Stripe (IDs atualizados com os valores fornecidos)
     const priceIds = {
-      'startend-monthly': 'price_1RQqc6QthMMZdZj2Ul3I8lUc',
-      'startend-yearly': 'price_1RQqc7QthMMZdZj2C8HBv5a2',
-      'prime-monthly': 'price_1RQqc8QthMMZdZj2FbDyGIUu',
-      'prime-yearly': 'price_1RQqc8QthMMZdZj2SGjUs1wy',
+      // Startend
+      'startend-monthly': 'price_1RQqc7QthMMZdZj2C8HBv5a2',  // Startend Mensal
+      'startend-yearly': 'price_1RQqc6QthMMZdZj2Ul3I8lUc',   // Startend Anual
+      // Prime
+      'prime-monthly': 'price_1RQqc8QthMMZdZj2SGjUs1wy',     // Prime Mensal
+      'prime-yearly': 'price_1RQqc8QthMMZdZj2FbDyGIUu',      // Prime Anual
     };
     
     // Verificar se o priceId existe no mapeamento
