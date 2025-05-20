@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { X, CreditCard, Receipt, QrCode } from 'lucide-react';
+import { X, CreditCard, Receipt, QrCode, Loader2, AlertCircle } from 'lucide-react';
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { createCheckoutSession } from "@/lib/stripe";
+import { useToast } from "@/components/ui/use-toast";
 
 interface CheckoutModalProps {
   isOpen: boolean;
@@ -15,16 +14,66 @@ interface CheckoutModalProps {
 
 type PaymentMethod = 'card' | 'boleto' | 'pix';
 
+// Interface para representar erros
+interface ApiError extends Error {
+  code?: string;
+  param?: string;
+  type?: string;
+}
+
 const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, planName, planPrice }) => {
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('card');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const { toast } = useToast();
   
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Determinar o ID do preço com base no plano e período
+  const getPriceId = () => {
+    const isPrime = planName.toLowerCase() === 'prime';
+    const isYearly = planPrice.includes('ano');
+    
+    if (isPrime) {
+      return isYearly ? 'prime-yearly' : 'prime-monthly';
+    } else {
+      return isYearly ? 'startend-yearly' : 'startend-monthly';
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Aqui seria integrado com a API da Stripe
-    alert('Em um ambiente real, este formulário seria processado pela Stripe');
-    onClose();
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      console.log("Iniciando checkout...");
+      const priceId = getPriceId();
+      console.log(`Usando priceId: ${priceId}`);
+      
+      const session = await createCheckoutSession(priceId);
+      
+      console.log("Resposta da API:", session);
+      
+      // Redireciona para a página de checkout do Stripe
+      if (session.url) {
+        console.log(`Redirecionando para: ${session.url}`);
+        window.location.href = session.url;
+      } else {
+        throw new Error('URL de checkout não encontrada');
+      }
+    } catch (error: unknown) {
+      console.error('Erro no checkout:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido ao processar pagamento';
+      setError(errorMessage);
+      toast({
+        title: "Erro no processamento",
+        description: errorMessage,
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -35,6 +84,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, planName
           <button 
             onClick={onClose}
             className="text-saldo-text-secondary hover:text-saldo-text-primary"
+            disabled={isLoading}
           >
             <X size={24} />
           </button>
@@ -49,17 +99,24 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, planName
             </div>
           </div>
           
+          {error && (
+            <div className="mb-4 p-3 bg-red-100 border border-red-300 text-red-800 rounded flex items-start">
+              <AlertCircle className="h-5 w-5 mr-2 mt-0.5 flex-shrink-0" />
+              <p className="text-sm">{error}</p>
+            </div>
+          )}
+          
           <Tabs defaultValue="card" onValueChange={(v) => setPaymentMethod(v as PaymentMethod)} className="mb-6">
             <TabsList className="grid grid-cols-3 mb-4">
-              <TabsTrigger value="card" className="flex items-center gap-2">
+              <TabsTrigger value="card" className="flex items-center gap-2" disabled={isLoading}>
                 <CreditCard size={20} className="text-saldo-primary" />
                 <span>Cartão</span>
               </TabsTrigger>
-              <TabsTrigger value="boleto" className="flex items-center gap-2">
+              <TabsTrigger value="boleto" className="flex items-center gap-2" disabled={isLoading}>
                 <Receipt size={20} className="text-saldo-primary" />
                 <span>Boleto</span>
               </TabsTrigger>
-              <TabsTrigger value="pix" className="flex items-center gap-2">
+              <TabsTrigger value="pix" className="flex items-center gap-2" disabled={isLoading}>
                 <QrCode size={20} className="text-saldo-primary" />
                 <span>Pix</span>
               </TabsTrigger>
@@ -71,24 +128,9 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, planName
                 <div className="flex items-center justify-center mb-4">
                   <CreditCard size={48} className="text-saldo-primary" />
                 </div>
-                <div>
-                  <Label htmlFor="card-name">Nome no cartão</Label>
-                  <Input id="card-name" placeholder="Nome como aparece no cartão" required />
-                </div>
-                <div>
-                  <Label htmlFor="card-number">Número do cartão</Label>
-                  <Input id="card-number" placeholder="1234 5678 9012 3456" required />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="card-expiry">Validade (MM/AA)</Label>
-                    <Input id="card-expiry" placeholder="MM/AA" required />
-                  </div>
-                  <div>
-                    <Label htmlFor="card-cvc">CVC</Label>
-                    <Input id="card-cvc" placeholder="123" required />
-                  </div>
-                </div>
+                <p className="text-sm text-center text-saldo-text-secondary mb-4">
+                  Você será redirecionado para o checkout seguro do Stripe para concluir seu pagamento.
+                </p>
               </TabsContent>
               
               {/* Formulário para Boleto */}
@@ -96,42 +138,9 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, planName
                 <div className="flex items-center justify-center mb-4">
                   <Receipt size={48} className="text-saldo-primary" />
                 </div>
-                <div>
-                  <Label htmlFor="boleto-name">Nome completo</Label>
-                  <Input id="boleto-name" placeholder="Seu nome completo" required />
-                </div>
-                <div>
-                  <Label htmlFor="boleto-email">Email</Label>
-                  <Input id="boleto-email" type="email" placeholder="seu@email.com" required />
-                </div>
-                <div>
-                  <Label htmlFor="boleto-cpf">CPF</Label>
-                  <Input id="boleto-cpf" placeholder="000.000.000-00" required />
-                </div>
-                <div>
-                  <Label htmlFor="boleto-address">Endereço</Label>
-                  <Input id="boleto-address" placeholder="Rua, número" required />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="boleto-city">Cidade</Label>
-                    <Input id="boleto-city" placeholder="Cidade" required />
-                  </div>
-                  <div>
-                    <Label htmlFor="boleto-cep">CEP</Label>
-                    <Input id="boleto-cep" placeholder="00000-000" required />
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="boleto-state">Estado</Label>
-                    <Input id="boleto-state" placeholder="UF" required />
-                  </div>
-                  <div>
-                    <Label htmlFor="boleto-country">País</Label>
-                    <Input id="boleto-country" placeholder="Brasil" defaultValue="Brasil" required />
-                  </div>
-                </div>
+                <p className="text-sm text-center text-saldo-text-secondary mb-4">
+                  Você será redirecionado para o checkout seguro do Stripe para gerar seu boleto.
+                </p>
               </TabsContent>
               
               {/* Formulário para Pix */}
@@ -139,23 +148,27 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, planName
                 <div className="flex items-center justify-center mb-4">
                   <QrCode size={48} className="text-saldo-primary" />
                 </div>
-                <div>
-                  <Label htmlFor="pix-name">Nome completo</Label>
-                  <Input id="pix-name" placeholder="Seu nome completo" required />
-                </div>
-                <div>
-                  <Label htmlFor="pix-cpf">CPF</Label>
-                  <Input id="pix-cpf" placeholder="000.000.000-00" required />
-                </div>
-                <div>
-                  <Label htmlFor="pix-email">Email</Label>
-                  <Input id="pix-email" type="email" placeholder="seu@email.com" required />
-                </div>
+                <p className="text-sm text-center text-saldo-text-secondary mb-4">
+                  Você será redirecionado para o checkout seguro do Stripe para concluir seu pagamento via Pix.
+                </p>
               </TabsContent>
               
-              <Button type="submit" className="w-full mt-8 btn-primary">
-                {paymentMethod === 'card' ? 'Finalizar pagamento' : 
-                 paymentMethod === 'boleto' ? 'Gerar boleto' : 'Gerar QR Code Pix'}
+              <Button 
+                type="submit" 
+                className="w-full mt-8 btn-primary"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Processando...
+                  </>
+                ) : (
+                  <>
+                    {paymentMethod === 'card' ? 'Finalizar pagamento' : 
+                     paymentMethod === 'boleto' ? 'Gerar boleto' : 'Gerar QR Code Pix'}
+                  </>
+                )}
               </Button>
             </form>
           </Tabs>
